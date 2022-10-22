@@ -29,14 +29,14 @@ public class Programs implements Serializable {
     @Column(nullable = false, columnDefinition =  "TINYINT(1)")
     private boolean is_active;
 
-    public Programs(){
-    }
-
     public Programs(int id, @NotEmpty(message = "Name is required") String name, String description, boolean is_active) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.is_active = is_active;
+    }
+
+    public Programs(){
     }
 
     public int getId() {

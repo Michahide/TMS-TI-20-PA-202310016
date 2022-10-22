@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ProgressMonitor;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class ProgramStudyController {
     // }
 
     @PostMapping()
-    public ResponseEntity<ResponseData<ProgramStudy>> postProgramStudy(@RequestBody ProgramStudy programStudy, Errors errors){
+    public ResponseEntity<ResponseData<ProgramStudy>> postProgramStudy(@Valid @RequestBody ProgramStudy programStudy, Errors errors){
         ResponseData<ProgramStudy> responseData = new ResponseData<>();
         if (errors.hasErrors()) {
             for (ObjectError error : errors.getAllErrors()) {

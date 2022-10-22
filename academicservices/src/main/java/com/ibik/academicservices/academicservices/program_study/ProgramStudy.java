@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 
@@ -33,25 +34,27 @@ public class ProgramStudy implements Serializable {
     private String code;
 
     @Column(length = 11)
-    @NotEmpty(message = "Program ID is required")
+    @Min (value = 1,message = "Program is Required")
     private int program_id;
 
     @Column(length = 11)
-    @NotEmpty(message = "Faculty ID is required")
+    @Min (value = 1,message = "Faculty is Required")
     private int faculty_id;
 
     @Column(length = 11)
-    @NotEmpty(message = "Department ID is required")
+    @Min (value = 1,message = "Program is Required")
     private int department_id;
 
     @Column(nullable = false, columnDefinition =  "TINYINT(1)")
     private boolean is_active;
 
+
+
     public ProgramStudy(int id, @NotEmpty(message = "Name is required") String name, String description,
             @NotEmpty(message = "Code is required") String code,
-            @NotEmpty(message = "Program ID is required") int program_id,
-            @NotEmpty(message = "Faculty ID is required") int faculty_id,
-            @NotEmpty(message = "Department ID is required") int department_id, boolean is_active) {
+            @Min(value = 1, message = "Program is Required") int program_id,
+            @Min(value = 1, message = "Faculty is Required") int faculty_id,
+            @Min(value = 1, message = "Program is Required") int department_id, boolean is_active) {
         this.id = id;
         this.name = name;
         this.description = description;
