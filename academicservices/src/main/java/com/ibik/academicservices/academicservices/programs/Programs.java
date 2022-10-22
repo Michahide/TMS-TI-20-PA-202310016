@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 
 @Entity
@@ -19,6 +20,7 @@ public class Programs implements Serializable {
     private int id;
 
     @Column(length = 20)
+    @NotEmpty(message = "Name is required")
     private String name;
 
     @Column(length = 20)
@@ -30,7 +32,7 @@ public class Programs implements Serializable {
     public Programs(){
     }
 
-    public Programs(int id, String name, String description, boolean is_active) {
+    public Programs(int id, @NotEmpty(message = "Name is required") String name, String description, boolean is_active) {
         this.id = id;
         this.name = name;
         this.description = description;
