@@ -1,15 +1,25 @@
 package com.ibik.academicservices.academicservices.students;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+
+import com.ibik.academicservices.academicservices.Courses.Courses;
+import com.ibik.academicservices.academicservices.program_study.ProgramStudy;
+import com.ibik.academicservices.academicservices.programs.Programs;
 
 
 @Entity
@@ -22,7 +32,7 @@ public class Students implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 15)
+    @Column(length = 15, unique = true)
     @NotEmpty (message = "NPM is Required")
     private String npm;
 
@@ -37,29 +47,55 @@ public class Students implements Serializable {
     @NotEmpty (message = "Last Name is Required")
     private String lastname;
 
-    @Column(length = 11)
-    @Min (value = 1,message = "Program is Required")
-    private int program_id;
+    //before
+    // @Column(length = 11)
+    // @Min (value = 1,message = "Program is Required")
+    // private int program_id;
 
-    @Column(length = 11)
-    @Min (value = 1, message = "Department is Required")
-    private int department_id;
-    
+    //after
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private Programs programs;
+
+    // @Column(length = 11)
+    // @Min (value = 1,message = "Program Study is Required")
+    // private int program_study_id;
+
+    @ManyToOne
+    @JoinColumn(name = "program_study_id")
+    private ProgramStudy programStudy;
+
+    // @Column(length = 11)
+    // @Min (value = 1, message = "Department is Required")
+    // private int department_id;
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_rel_courses",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Courses> courses;
+
     public Students(int id, @NotEmpty(message = "NPM is Required") String npm,
             @NotEmpty(message = "First Name is Required") String firstname, String middlename,
-            @NotEmpty(message = "Last Name is Required") String lastname,
-            @Min(value = 1, message = "Program is Required") int program_id,
-            @Min(value = 1, message = "Department is Required") int department_id) {
+            @NotEmpty(message = "Last Name is Required") String lastname, Programs programs, ProgramStudy programStudy,
+            Set<Courses> courses) {
         this.id = id;
         this.npm = npm;
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;
-        this.program_id = program_id;
-        this.department_id = department_id;
+        this.programs = programs;
+        this.programStudy = programStudy;
+        this.courses = courses;
     }
 
     public Students(){
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
     public int getId() {
@@ -102,20 +138,30 @@ public class Students implements Serializable {
         this.lastname = lastname;
     }
 
-    public int getProgram_id() {
-        return program_id;
+    public Programs getPrograms() {
+        return programs;
     }
 
-    public void setProgram_id(int program_id) {
-        this.program_id = program_id;
+    public void setPrograms(Programs programs) {
+        this.programs = programs;
     }
 
-    public int getDepartment_id() {
-        return department_id;
+    public ProgramStudy getProgramStudy() {
+        return programStudy;
     }
 
-    public void setDepartment_id(int department_id) {
-        this.department_id = department_id;
+    public void setProgramStudy(ProgramStudy programStudy) {
+        this.programStudy = programStudy;
     }
 
+    public Set<Courses> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Courses> courses) {
+        this.courses = courses;
+    }
+    
+
+    
 }

@@ -1,15 +1,21 @@
 package com.ibik.academicservices.academicservices.program_study;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+
+import com.ibik.academicservices.academicservices.programs.Programs;
 
 
 @Entity
@@ -33,13 +39,25 @@ public class ProgramStudy implements Serializable {
     @NotEmpty(message = "Code is required")
     private String code;
 
-    @Column(length = 11)
-    @Min (value = 1,message = "Program is Required")
-    private int program_id;
+    //before
+    // @Column(length = 11)
+    // @Min (value = 1,message = "Program is Required")
+    // private int program_id;
 
-    @Column(length = 11)
-    @Min (value = 1,message = "Faculty is Required")
-    private int faculty_id;
+    //after
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private Programs programs;
+
+    //before
+    // @Column(length = 11)
+    // @Min (value = 1,message = "Faculty is Required")
+    // private int faculty_id;
+
+    //after
+    @OneToMany
+    @JoinColumn
+    private Set<ProgramStudy> Faculty;
 
     @Column(length = 11)
     @Min (value = 1,message = "Program is Required")
@@ -50,17 +68,21 @@ public class ProgramStudy implements Serializable {
 
 
 
+
+
+
+
+
+
     public ProgramStudy(int id, @NotEmpty(message = "Name is required") String name, String description,
-            @NotEmpty(message = "Code is required") String code,
-            @Min(value = 1, message = "Program is Required") int program_id,
-            @Min(value = 1, message = "Faculty is Required") int faculty_id,
+            @NotEmpty(message = "Code is required") String code, Programs programs, Set<ProgramStudy> faculty,
             @Min(value = 1, message = "Program is Required") int department_id, boolean is_active) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.code = code;
-        this.program_id = program_id;
-        this.faculty_id = faculty_id;
+        this.programs = programs;
+        Faculty = faculty;
         this.department_id = department_id;
         this.is_active = is_active;
     }
@@ -108,20 +130,12 @@ public class ProgramStudy implements Serializable {
         this.code = code;
     }
 
-    public int getProgram_id() {
-        return program_id;
+    public Programs getPrograms() {
+        return programs;
     }
 
-    public void setProgram_id(int program_id) {
-        this.program_id = program_id;
-    }
-
-    public int getFaculty_id() {
-        return faculty_id;
-    }
-
-    public void setFaculty_id(int faculty_id) {
-        this.faculty_id = faculty_id;
+    public void setPrograms(Programs programs) {
+        this.programs = programs;
     }
 
     public int getDepartment_id() {
@@ -138,6 +152,14 @@ public class ProgramStudy implements Serializable {
 
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
+    }
+
+    public Set<ProgramStudy> getFaculty() {
+        return Faculty;
+    }
+
+    public void setFaculty(Set<ProgramStudy> faculty) {
+        Faculty = faculty;
     }
 
 }
