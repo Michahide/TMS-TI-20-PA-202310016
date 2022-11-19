@@ -1,5 +1,8 @@
 package com.ibik.academicservices.academicservices.students;
 
+import javax.websocket.server.PathParam;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 // import org.springframework.data.;
 
@@ -10,4 +13,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface StudentsRepo extends CrudRepository<Students, Integer> {
     //function query JPAQL atau MYSQL Query
+    @Query("SELECT a FROM Students a WHERE (a.firstname like %:name% or a.middlename like %:name% or a.lastname like %:name% or a.npm like %:name%)")
+    public Iterable<Students> findStudentByName(@PathParam("name") String name);
 }
