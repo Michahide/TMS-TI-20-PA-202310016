@@ -66,14 +66,6 @@ public class ProgramStudy implements Serializable {
     @Column(nullable = false, columnDefinition =  "TINYINT(1)")
     private boolean is_active;
 
-
-
-
-
-
-
-
-
     public ProgramStudy(int id, @NotEmpty(message = "Name is required") String name, String description,
             @NotEmpty(message = "Code is required") String code, Programs programs, Set<ProgramStudy> faculty,
             @Min(value = 1, message = "Program is Required") int department_id, boolean is_active) {

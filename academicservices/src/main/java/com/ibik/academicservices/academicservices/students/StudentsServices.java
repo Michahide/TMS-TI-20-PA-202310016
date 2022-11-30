@@ -30,6 +30,10 @@ public class StudentsServices {
         return studentsRepo.findStudentByName(name);
     }
 
+    public Iterable<Students> auth(String email, String password){
+        return studentsRepo.studentAuth(email, password);
+    }
+
     public void removeOne(int id){
         studentsRepo.deleteById(id);
     }
@@ -44,6 +48,8 @@ public class StudentsServices {
         result.setPrograms(students.getPrograms());
         result.setProgramStudy(students.getProgramStudy());
         result.setCourses(students.getCourses());
+        result.setBirthDate(students.getBirthDate());
+        result.setEmail(students.getEmail());
 
         return result;
     }

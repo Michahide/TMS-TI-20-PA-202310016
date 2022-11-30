@@ -1,6 +1,7 @@
 package com.ibik.academicservices.academicservices.students;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ibik.academicservices.academicservices.Courses.Courses;
 import com.ibik.academicservices.academicservices.program_study.ProgramStudy;
 import com.ibik.academicservices.academicservices.programs.Programs;
@@ -26,6 +29,7 @@ import com.ibik.academicservices.academicservices.programs.Programs;
 @Table(name="students")
 
 public class Students implements Serializable {
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -46,6 +50,20 @@ public class Students implements Serializable {
     @Column(length = 10)
     @NotEmpty (message = "Last Name is Required")
     private String lastname;
+
+    @Column(columnDefinition = "DATE")
+    @NotEmpty(message =  "BirthDate is Required")
+    private String BirthDate;
+
+    @Column(length = 28)
+    @NotEmpty (message = "Email is Required")
+    private String email;
+
+    @Column(length = 18)
+    @NotEmpty (message = "Password is Required")
+    private String password;
+
+
 
     //before
     // @Column(length = 11)
@@ -75,17 +93,30 @@ public class Students implements Serializable {
         joinColumns = @JoinColumn(name = "student_id"),
         inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+
+    // before
+
+
+    //
+    // @OneToMany
+    // @JoinColumn
+    // private Set<Students> password;
+
     private Set<Courses> courses;
 
     public Students(int id, @NotEmpty(message = "NPM is Required") String npm,
             @NotEmpty(message = "First Name is Required") String firstname, String middlename,
-            @NotEmpty(message = "Last Name is Required") String lastname, Programs programs, ProgramStudy programStudy,
+            @NotEmpty(message = "Last Name is Required") String lastname,
+            @NotEmpty(message = "Email is Required") String email,
+            @NotEmpty(message = "BirthDate is Required") String birthDate, Programs programs, ProgramStudy programStudy,
             Set<Courses> courses) {
         this.id = id;
         this.npm = npm;
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;
+        this.email = email;
+        BirthDate = birthDate;
         this.programs = programs;
         this.programStudy = programStudy;
         this.courses = courses;
@@ -161,6 +192,30 @@ public class Students implements Serializable {
     public void setCourses(Set<Courses> courses) {
         this.courses = courses;
     }
+
+    public String getBirthDate() {
+        return BirthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        BirthDate = birthDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // public Date getBirthDate() {
+    //     return BirthDate;
+    // }
+
+    // public void setBirthDate(Date birthDate) {
+    //     BirthDate = birthDate;
+    // }
     
 
     
